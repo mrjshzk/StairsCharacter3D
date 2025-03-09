@@ -44,3 +44,7 @@ func _physics_process(delta: float) -> void:
 	# call move_and_stair_step instead of default move_and_slide
 	move_and_stair_step()
 ```
+
+# Note
+This plugin is basically just [Andricraft's GDScript Stairs Character](https://github.com/Andicraft/stairs-character) translated into C++.
+I made it as a learning exercise for GDExtension.
