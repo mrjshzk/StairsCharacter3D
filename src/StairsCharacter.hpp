@@ -12,7 +12,8 @@ class StairsCharacter3D : public CharacterBody3D
 
 private:
 	NodePath collider;
-	double step_height = 0.5;
+	float step_height_up = 0.5;
+	float step_height_down = 0.5;
 
 	bool grounded;
 	bool was_grounded;
@@ -26,25 +27,6 @@ private:
 protected:
 	static void _bind_methods();
 
-public:
-	StairsCharacter3D();
-	~StairsCharacter3D();
-
-	void _ready() override;
-	void reset_grounded();
-
-	void move_and_stair_step();
-	void stair_step_up();
-	void stair_step_down();
-
-	void set_step_height(const double height) {
-		step_height = height;
-	}
-
-	double get_step_height() const {
-		return step_height;
-	}
-
 	void set_desired_velocity(const Vector3 vel) {
 		desired_velocity = vel;
 	}
@@ -53,4 +35,27 @@ public:
 		return desired_velocity;
 	}
 
+public:
+	void _ready() override;
+	void reset_grounded();
+
+	void move_and_stair_step();
+	void stair_step_up();
+	void stair_step_down();
+
+	void set_step_height_up(const float height) {
+		step_height_up = height;
+	}
+
+	float get_step_height_up() const {
+		return step_height_up;
+	}
+
+	void set_step_height_down(const float height) {
+		step_height_down = height;
+	}
+
+	float get_step_height_down() const {
+		return step_height_down;
+	}
 };

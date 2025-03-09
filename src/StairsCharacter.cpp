@@ -14,32 +14,21 @@ void StairsCharacter3D::_bind_methods()
 	ClassDB::bind_method(D_METHOD("set_collider", "collider"), &StairsCharacter3D::set_collider);
 	ClassDB::add_property("StairsCharacter3D", PropertyInfo(Variant::NODE_PATH, "collider", PROPERTY_HINT_NODE_TYPE, "CollisionShape3D"), "set_collider", "get_collider");
 
-	ClassDB::bind_method(D_METHOD("get_step_height"), &StairsCharacter3D::get_step_height);
-	ClassDB::bind_method(D_METHOD("set_step_height", "height"), &StairsCharacter3D::set_step_height);
-	ClassDB::add_property("StairsCharacter3D", PropertyInfo(Variant::FLOAT, "step_height", PROPERTY_HINT_RANGE, "0,2,0.05"), "set_step_height", "get_step_height");
+	ClassDB::bind_method(D_METHOD("get_step_height_up"), &StairsCharacter3D::get_step_height_up);
+	ClassDB::bind_method(D_METHOD("set_step_height_up", "height"), &StairsCharacter3D::set_step_height_up);
+
+	ClassDB::bind_method(D_METHOD("get_step_height_down"), &StairsCharacter3D::get_step_height_down);
+	ClassDB::bind_method(D_METHOD("set_step_height_down", "height"), &StairsCharacter3D::set_step_height_down);
+
+	ClassDB::add_property("StairsCharacter3D", PropertyInfo(Variant::FLOAT, "step_height_up", PROPERTY_HINT_RANGE, "0,5,0.05"), "set_step_height_up", "get_step_height_up");
+	ClassDB::add_property("StairsCharacter3D", PropertyInfo(Variant::FLOAT, "step_height_down", PROPERTY_HINT_RANGE, "0,5,0.05"), "set_step_height_down", "get_step_height_down");
 
 	ClassDB::bind_method(D_METHOD("move_and_stair_step"), &StairsCharacter3D::move_and_stair_step);
-	ClassDB::bind_method(D_METHOD("stair_step_up"), &StairsCharacter3D::stair_step_up);
-	ClassDB::bind_method(D_METHOD("stair_step_down"), &StairsCharacter3D::stair_step_down);
-	ClassDB::bind_method(D_METHOD("reset_grounded"), &StairsCharacter3D::reset_grounded);
-
-	ClassDB::bind_method(D_METHOD("get_desired_velocity"), &StairsCharacter3D::get_desired_velocity);
-	ClassDB::bind_method(D_METHOD("set_desired_velocity", "vel"), &StairsCharacter3D::set_desired_velocity);
-	ClassDB::add_property("StairsCharacter3D", PropertyInfo(Variant::VECTOR3, "desired_velocity"), "set_desired_velocity", "get_desired_velocity");
 
 	ADD_SIGNAL(MethodInfo("on_stair_step_up"));
 	ADD_SIGNAL(MethodInfo("on_stair_step_down"));
 	ADD_SIGNAL(MethodInfo("on_stair_step"));
 }
-
-StairsCharacter3D::StairsCharacter3D() {
-
-}
-
-StairsCharacter3D::~StairsCharacter3D() {
-
-}
-
 
 void StairsCharacter3D::_ready() 
 {
@@ -107,7 +96,7 @@ void StairsCharacter3D::stair_step_up()
 	motion_transform = motion_transform.translated(result->get_travel());
 
 	// Raise up to ceiling - can't walk on steps if there's a low ceiling
-	Vector3 step_up = step_height * Vector3(0,1,0);
+	Vector3 step_up = step_height_up * Vector3(0,1,0);
 	
 
 	params->set_from(motion_transform);
@@ -161,7 +150,7 @@ void StairsCharacter3D::stair_step_down()
 	Ref<PhysicsTestMotionParameters3D> params = memnew(PhysicsTestMotionParameters3D);
 
 	params->set_from(get_global_transform());
-	params->set_motion(Vector3(0,-1,0) * step_height);
+	params->set_motion(Vector3(0,-1,0) * step_height_down);
 	params->set_margin(0.01);
 
 	if (PhysicsServer3D::get_singleton()->body_test_motion(get_rid(), params, result) == false) {

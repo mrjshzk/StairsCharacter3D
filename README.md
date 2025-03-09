@@ -3,6 +3,8 @@
 A simple class based on Godot's default CharacterBody3D with very simple stair stepping ability.
 Just call "move_and_stair_step()" instead of "move_and_slide()".
 
+Only tested with cylinder colliders. Works best with "0.01" collider margin.
+
 There are a couple signals you can connect to:
 - on_stair_step (any step, up or down)
 - on_stair_step_down
