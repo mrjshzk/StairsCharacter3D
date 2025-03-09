@@ -1,7 +1,7 @@
 # Stairs Character 3D
 
 A simple class based on Godot's default CharacterBody3D with very simple stair stepping ability.
-Call "move_and_stair_step()" instead of "move_and_slide()" and set "desired_velocity" to your normalized velocity.
+Just call "move_and_stair_step()" instead of "move_and_slide()".
 
 Example usage:
 ```gdscript
@@ -17,9 +17,6 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 
 func _physics_process(delta: float) -> void:
-	# reset grounded variables
-	reset_grounded()
-	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -39,9 +36,6 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	
-	# set desired velocity and call move and stair step
-	desired_velocity = velocity.normalized()
+	# call move_and_stair_step instead of default move_and_slide
 	move_and_stair_step()
-
-
 ```

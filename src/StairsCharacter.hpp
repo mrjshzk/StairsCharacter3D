@@ -27,6 +27,9 @@ protected:
 	static void _bind_methods();
 
 public:
+	StairsCharacter3D();
+	~StairsCharacter3D();
+
 	void _ready() override;
 	void reset_grounded();
 

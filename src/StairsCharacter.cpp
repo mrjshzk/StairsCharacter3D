@@ -32,6 +32,15 @@ void StairsCharacter3D::_bind_methods()
 	ADD_SIGNAL(MethodInfo("on_stair_step"));
 }
 
+StairsCharacter3D::StairsCharacter3D() {
+
+}
+
+StairsCharacter3D::~StairsCharacter3D() {
+
+}
+
+
 void StairsCharacter3D::_ready() 
 {
 	
@@ -52,6 +61,8 @@ void StairsCharacter3D::reset_grounded()
 
 void StairsCharacter3D::move_and_stair_step()
 {
+	reset_grounded();
+	set_desired_velocity(get_velocity().normalized());
 	stair_step_up();
 	move_and_slide();
 	stair_step_down();
