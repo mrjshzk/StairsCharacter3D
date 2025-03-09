@@ -27,9 +27,9 @@ void StairsCharacter3D::_bind_methods()
 	ClassDB::bind_method(D_METHOD("set_desired_velocity", "vel"), &StairsCharacter3D::set_desired_velocity);
 	ClassDB::add_property("StairsCharacter3D", PropertyInfo(Variant::VECTOR3, "desired_velocity"), "set_desired_velocity", "get_desired_velocity");
 
-	ADD_SIGNAL(MethodInfo("_on_stair_step_up"));
-	ADD_SIGNAL(MethodInfo("_on_stair_step_down"));
-	ADD_SIGNAL(MethodInfo("_on_stair_step"));
+	ADD_SIGNAL(MethodInfo("on_stair_step_up"));
+	ADD_SIGNAL(MethodInfo("on_stair_step_down"));
+	ADD_SIGNAL(MethodInfo("on_stair_step"));
 }
 
 void StairsCharacter3D::_ready() 
@@ -147,8 +147,8 @@ void StairsCharacter3D::stair_step_up()
 
 	// Move player to match the step height we just found
 	set_global_position(Vector3(get_global_position().x, motion_transform.origin.y, get_global_position().z));
-	emit_signal("_on_stair_step");
-	emit_signal("_on_stair_step_up");
+	emit_signal("on_stair_step");
+	emit_signal("on_stair_step_up");
 	memdelete(params);
 	memdelete(result);
 }
@@ -175,8 +175,8 @@ void StairsCharacter3D::stair_step_down()
 
 	set_global_transform(get_global_transform().translated(result->get_travel()));
 	apply_floor_snap();
-	emit_signal("_on_stair_step");
-	emit_signal("_on_stair_step_down");
+	emit_signal("on_stair_step");
+	emit_signal("on_stair_step_down");
 	memdelete(params);
 	memdelete(result);
 }

@@ -1,0 +1,22 @@
+[configuration]
+
+entry_symbol = "gdextension_init"
+compatibility_minimum = 4.3
+
+[libraries]
+
+linux.debug.x86_64 = "bin/libStairsCharacter.linux.debug.x86_64.so"
+linux.release.x86_64 = "bin/libStairsCharacter.linux.release.x86_64.so"
+linux.debug.arm64 = "bin/libStairsCharacter.linux.debug.arm64.so"
+linux.release.arm64 = "bin/libStairsCharacter.linux.release.arm64.so"
+linux.debug.rv64 = "bin/libStairsCharacter.linux.debug.rv64.so"
+linux.release.rv64 = "bin/libStairsCharacter.linux.release.rv64.so"
+windows.debug.x86_64 = "bin/libStairsCharacter.windows.debug.x86_64.dll"
+windows.release.x86_64 = "bin/libStairsCharacter.windows.release.x86_64.dll"
+macos.debug = "bin/libStairsCharacter.macos.debug.framework"
+macos.release = "bin/libStairsCharacter.macos.release.framework"
+android.debug.arm64 = "bin/libStairsCharacter.android.debug.arm64.so"
+android.release.arm64 = "bin/libStairsCharacter.android.release.arm64.so"
+
+[icons]
+StairsCharacter3D = "stairs_character.svg"
