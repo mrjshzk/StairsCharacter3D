@@ -85,8 +85,8 @@ void StairsCharacter3D::stair_step_up()
 		return;
 	}
 
-	PhysicsTestMotionResult3D *result = memnew(PhysicsTestMotionResult3D);
-	PhysicsTestMotionParameters3D *params = memnew(PhysicsTestMotionParameters3D);
+	Ref<PhysicsTestMotionResult3D> result = memnew(PhysicsTestMotionResult3D);
+	Ref<PhysicsTestMotionParameters3D> params = memnew(PhysicsTestMotionParameters3D);
 
 	params->set_margin(0.01);
 
@@ -99,11 +99,8 @@ void StairsCharacter3D::stair_step_up()
 	
 	// No stair step to do, we didn't hit any walls
 	if (PhysicsServer3D::get_singleton()->body_test_motion(get_rid(), params, result) == false) {
-		memdelete(params);
-		memdelete(result);
 		return;
 	}
-
 
 	// Move to collision
 	Vector3 remainder = result->get_remainder();
@@ -112,8 +109,7 @@ void StairsCharacter3D::stair_step_up()
 	// Raise up to ceiling - can't walk on steps if there's a low ceiling
 	Vector3 step_up = step_height * Vector3(0,1,0);
 	
-	result = memnew(PhysicsTestMotionResult3D);
-	params = memnew(PhysicsTestMotionParameters3D);
+
 	params->set_from(motion_transform);
 	params->set_motion(step_up);
 	PhysicsServer3D::get_singleton()->body_test_motion(get_rid(), params, result);
@@ -124,24 +120,18 @@ void StairsCharacter3D::stair_step_up()
 	float step_up_distance = result->get_travel().length();
 
 	// Move forward remaining distance
-	result = memnew(PhysicsTestMotionResult3D);
-	params = memnew(PhysicsTestMotionParameters3D);
 	params->set_from(motion_transform);
 	params->set_motion(remainder);
 	PhysicsServer3D::get_singleton()->body_test_motion(get_rid(), params, result);
 	motion_transform = motion_transform.translated(result->get_travel());
 
 	// And set the collider back down again
-	result = memnew(PhysicsTestMotionResult3D);
-	params = memnew(PhysicsTestMotionParameters3D);
 	params->set_from(motion_transform);
 	// But no further than how far we stepped up
 	params->set_motion(Vector3(0, -1, 0) * step_up_distance);
 
 	// Don't bother with the rest if we're not actually gonna land back down on something
 	if (PhysicsServer3D::get_singleton()->body_test_motion(get_rid(), params, result) == false) {
-		memdelete(params);
-		memdelete(result);
 		return;
 	}
 	
@@ -151,8 +141,6 @@ void StairsCharacter3D::stair_step_up()
 
 	// Can't stand on the thing we're trying to step on anyway
 	if (surface_normal.angle_to(Vector3(0, 1, 0)) > get_floor_max_angle()) {
-		memdelete(params);
-		memdelete(result);
 		return;
 	}
 
@@ -160,8 +148,6 @@ void StairsCharacter3D::stair_step_up()
 	set_global_position(Vector3(get_global_position().x, motion_transform.origin.y, get_global_position().z));
 	emit_signal("on_stair_step");
 	emit_signal("on_stair_step_up");
-	memdelete(params);
-	memdelete(result);
 }
 
 void StairsCharacter3D::stair_step_down()
@@ -171,16 +157,14 @@ void StairsCharacter3D::stair_step_down()
 		return;
 	}
 
-	PhysicsTestMotionResult3D *result = memnew(PhysicsTestMotionResult3D);
-	PhysicsTestMotionParameters3D *params = memnew(PhysicsTestMotionParameters3D);
+	Ref<PhysicsTestMotionResult3D> result = memnew(PhysicsTestMotionResult3D);
+	Ref<PhysicsTestMotionParameters3D> params = memnew(PhysicsTestMotionParameters3D);
 
 	params->set_from(get_global_transform());
 	params->set_motion(Vector3(0,-1,0) * step_height);
 	params->set_margin(0.01);
 
 	if (PhysicsServer3D::get_singleton()->body_test_motion(get_rid(), params, result) == false) {
-		memdelete(params);
-		memdelete(result);
 		return;
 	}
 
@@ -188,8 +172,6 @@ void StairsCharacter3D::stair_step_down()
 	apply_floor_snap();
 	emit_signal("on_stair_step");
 	emit_signal("on_stair_step_down");
-	memdelete(params);
-	memdelete(result);
 }
 
 void StairsCharacter3D::set_collider(const NodePath &p_collider)

@@ -3,6 +3,11 @@
 A simple class based on Godot's default CharacterBody3D with very simple stair stepping ability.
 Just call "move_and_stair_step()" instead of "move_and_slide()".
 
+There are a couple signals you can connect to:
+- on_stair_step (any step, up or down)
+- on_stair_step_down
+- on_stair_step_up
+
 Example usage:
 ```gdscript
 
